@@ -1,7 +1,5 @@
 package com.ikhsan.compose.mythology.ui.screen.home
 
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ikhsan.compose.mythology.R
@@ -29,20 +27,24 @@ fun HomeScreen(
     navigateToDetail: (Int) -> Unit,
 ) {
     val query by viewModel.query
+    val active by viewModel.active
+    val history = viewModel.history.reversed()
 
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when(uiState) {
             is UiState.Error -> {}
             is UiState.Loading -> {
-                viewModel.getMythology()
                 viewModel.search(query)
             }
             is UiState.Success -> {
                 HomeContent(
                     query = query,
                     onQueryChange = viewModel::search,
+                    active = active,
                     onActiveChange = viewModel::active,
                     mythologyItem = uiState.data,
+                    history = history,
+                    onSearch = viewModel::saveHistory,
                     navigateToDetail = navigateToDetail,
                     onFavClick = { id, newState ->
                         viewModel.updateMythology(id, newState)
@@ -58,8 +60,11 @@ fun HomeScreen(
 fun HomeContent (
     query: String,
     onQueryChange: (String) -> Unit,
+    active: Boolean,
     onActiveChange: (Boolean) -> Unit,
     mythologyItem: List<Mythology>,
+    onSearch: (String, Boolean) -> Unit,
+    history: List<String>,
     onFavClick: (id: Int, newState: Boolean) -> Unit,
     navigateToDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -68,7 +73,10 @@ fun HomeContent (
         SearchBar(
             query = query,
             onQueryChange = onQueryChange,
-            onActiveChange = onActiveChange
+            active = active,
+            onActiveChange = onActiveChange,
+            onSearch = onSearch,
+            history = history
         )
         if (mythologyItem.isNotEmpty()) {
             ListMythology(
@@ -97,6 +105,7 @@ fun ListMythology(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = contentPadding,
         modifier = modifier
+            .testTag("list_item")
         ) {
         items(mythologyItem, key = { it.id }) { data ->
             CardItem(
@@ -104,11 +113,9 @@ fun ListMythology(
                 urlImage = data.image,
                 title = data.title,
                 isFav = data.favorite,
-                onFavClick = onFavClick,
+                ignoredOnFavClick = onFavClick,
                 modifier = Modifier
-                    .clickable {
-                        navigateToDetail(data.id)
-                    }
+                    .clickable { navigateToDetail(data.id) }
             )
         }
     }

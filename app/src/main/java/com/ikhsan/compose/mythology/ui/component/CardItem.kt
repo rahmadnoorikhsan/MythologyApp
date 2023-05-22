@@ -1,6 +1,5 @@
 package com.ikhsan.compose.mythology.ui.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +32,7 @@ fun CardItem(
     urlImage: String,
     title: String,
     isFav: Boolean,
-    onFavClick: (id: Int, newState: Boolean) -> Unit,
+    ignoredOnFavClick: (id: Int, newState: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ElevatedCard(
@@ -47,23 +48,26 @@ fun CardItem(
                 contentScale = ContentScale.Crop
                 )
             Row(
+                modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
             ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
+                        .padding(16.dp)
                         .weight(1f)
-                        .padding(16.dp)
                 )
-                Icon(
-                    imageVector = if (isFav) Icons.Rounded.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = stringResource(R.string.fav_button),
-                    tint = if (!isFav) Color.DarkGray else Color.Red,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clickable { onFavClick(id, !isFav) }
+                IconButton(
+                    onClick = { ignoredOnFavClick(id, !isFav) },
+                    modifier = Modifier.testTag("fav_button"),
+                    content = {
+                        Icon(
+                            imageVector = if (isFav) Icons.Rounded.Favorite else Icons.Outlined.FavoriteBorder,
+                            contentDescription = stringResource(R.string.fav_button),
+                            tint = if (!isFav) Color.DarkGray else Color.Red,
+                        )
+                    }
                 )
             }
         }
@@ -79,7 +83,7 @@ fun CardItemPreview() {
             urlImage = "",
             title = "Mermaid",
             isFav = true,
-            onFavClick = {_, _, ->}
+            ignoredOnFavClick = { _, _ ->}
         )
     }
 }

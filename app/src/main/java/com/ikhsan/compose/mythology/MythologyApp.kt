@@ -13,11 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -26,12 +23,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ikhsan.compose.mythology.ui.screen.detail.DetailScreen
-import com.ikhsan.compose.mythology.ui.screen.home.HomeScreen
 import com.ikhsan.compose.mythology.ui.navigation.NavigationItem
 import com.ikhsan.compose.mythology.ui.navigation.Screen
+import com.ikhsan.compose.mythology.ui.screen.detail.DetailScreen
 import com.ikhsan.compose.mythology.ui.screen.favorite.FavoriteScreen
-import com.ikhsan.compose.mythology.ui.screen.profile.ProfileScreen
+import com.ikhsan.compose.mythology.ui.screen.home.HomeScreen
+import com.ikhsan.compose.mythology.ui.screen.about.AboutScreen
 import com.ikhsan.compose.mythology.ui.theme.MythologyTheme
 
 @Composable
@@ -70,7 +67,7 @@ fun MythologyApp(
                 )
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                AboutScreen()
             }
             composable(
                 route = Screen.DetailMythology.route,
@@ -99,19 +96,22 @@ fun BottomBar(
     NavigationBar(modifier = modifier) {
         val items = listOf(
             NavigationItem(
-                title = stringResource(R.string.menu_home),
+                title = stringResource(R.string.home_page),
                 icon = Icons.Default.Home,
-                screen = Screen.Home
+                screen = Screen.Home,
+                contentDescription = "home_page"
             ),
             NavigationItem(
-                title = stringResource(R.string.menu_favorite),
+                title = stringResource(R.string.favorite_page),
                 icon = Icons.Default.Favorite,
-                screen = Screen.Favorite
+                screen = Screen.Favorite,
+                contentDescription = "favorite_page"
             ),
             NavigationItem(
-                title = stringResource(R.string.menu_profile),
+                title = stringResource(R.string.about_page),
                 icon = Icons.Default.AccountCircle,
-                screen = Screen.Profile
+                screen = Screen.Profile,
+                contentDescription = "about_page"
             )
         )
         NavigationBar {
@@ -120,7 +120,7 @@ fun BottomBar(
                     icon = {
                         Icon(
                             imageVector = item.icon,
-                            contentDescription = item.title
+                            contentDescription = item.contentDescription
                         )
                     },
                     label = { Text(item.title) },

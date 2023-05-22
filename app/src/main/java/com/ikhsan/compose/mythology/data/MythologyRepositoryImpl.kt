@@ -19,10 +19,6 @@ class MythologyRepositoryImpl @Inject constructor() : MythologyRepository {
         }
     }
 
-    override fun getMythology() = flow {
-        emit(mythology)
-    }
-
     override fun searchMythology(query: String) = flow {
         val data = mythology.filter {
             it.title.contains(query, ignoreCase = true)

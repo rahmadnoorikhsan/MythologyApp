@@ -1,4 +1,4 @@
-package com.ikhsan.compose.mythology.ui.screen.profile
+package com.ikhsan.compose.mythology.ui.screen.about
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -25,7 +25,7 @@ import com.ikhsan.compose.mythology.R
 import com.ikhsan.compose.mythology.ui.theme.MythologyTheme
 
 @Composable
-fun ProfileScreen(
+fun AboutScreen(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -53,15 +53,17 @@ fun ProfileScreen(
             )
             }
         }
-        ProfileInformation(
+        AboutInformation(
             name = stringResource(R.string.name),
+            email = stringResource(R.string.email),
             description = stringResource(R.string.description))
     }
 }
 
 @Composable
-fun ProfileInformation(
+fun AboutInformation(
     name: String,
+    email: String,
     description: String,
     modifier: Modifier = Modifier
 ) {
@@ -70,11 +72,15 @@ fun ProfileInformation(
             text = name,
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier
-                .padding(
-                    start = 8.dp,
-                    end = 8.dp,
-                    bottom = 16.dp
-                )
+                .padding(horizontal = 8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Text(
+            text = email,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
                 .align(Alignment.CenterHorizontally)
         )
         Text(
@@ -91,6 +97,6 @@ fun ProfileInformation(
 @Composable
 fun ProfileScreenPreview() {
     MythologyTheme {
-        ProfileScreen()
+        AboutScreen()
     }
 }

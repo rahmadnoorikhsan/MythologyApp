@@ -4,8 +4,6 @@ import com.ikhsan.compose.mythology.model.Mythology
 import kotlinx.coroutines.flow.Flow
 
 interface MythologyRepository {
-    fun getMythology(): Flow<List<Mythology>>
-
     fun searchMythology(query: String): Flow<List<Mythology>>
 
     fun getMythologyById(id: Int): Flow<Mythology>

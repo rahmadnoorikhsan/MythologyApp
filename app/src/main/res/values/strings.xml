@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Mythology</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_favorite">Favorite</string>
-    <string name="menu_profile">Profile</string>
+    <string name="home_page">Home</string>
+    <string name="favorite_page">Favorite</string>
+    <string name="about_page">Profile</string>
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
+    <string name="history_icon">History Icon</string>
     <string name="back_button">Back Button</string>
     <string name="close_button">Close Button</string>
     <string name="fav_button">Favorite Button</string>
@@ -12,6 +13,7 @@
     <string name="profile_image">Profile Image</string>
     <string name="empty_image">Empty Image</string>
     <string name="name">Rahmad Noor Ikhsan</string>
+    <string name="email">a331dsx1089@bangkit.academy</string>
     <string name="description">My name is Rahmad Noor Ikhsan, I am 20 years old, I am a 6th semester student at Al-Qur\'an Science University, Wonosobo. I am currently participating in the Kampus Merdeka program, Bangkit Academy and my role is Mobile Development.</string>
     <string name="url_profile"><![CDATA[
         https://dicoding-web-img.sgp1.cdn.digitaloceanspaces.com/small/avatar/dos:d2b3d4568c8f82074beeb2d1bc289f0b20220921210726.png
